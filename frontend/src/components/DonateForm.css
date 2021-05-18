@@ -1,0 +1,63 @@
+*:focus {
+    /* border-color: #6d76f7; */
+    outline-color: #6d76f7;
+    outline-width: 1px;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.DonateForm {
+    margin: 50px;
+    background: rgb(228, 226, 226);
+    height: 75vh; 
+    width: 25%;
+    /* display: flex; */
+    /* align-items: center; */
+    text-align: center;
+    border-radius: 25px;
+}
+
+.title {
+    margin-top: 10%;
+    margin-left: 12.5%;
+    text-align: left;
+}
+
+.inputField {
+    margin-top: 10%;
+    /* margin-left: 13%;
+    margin-right: 13%; */
+    text-align: center;
+    border-radius: 15px;
+    height: 50px;
+    width: 75%;
+    border: none;
+}
+
+/* .inputField:hover {
+    transition: all 0.2s ease-in-out;
+    background: #fff;
+    color: #010606;
+} */
+
+.threshold {
+    margin-top: 10%;
+    text-align: center;
+    width: 75%;
+}
+
+#submit {
+    color: white;
+    background: #6d76f7;
+    text-align: center;
+}
+
+#ServiceButton {
+    color: white;
+    background: black;
+    text-align: center;
+}
