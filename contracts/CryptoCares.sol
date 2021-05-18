@@ -5,9 +5,11 @@ contract Cryptocares {
     struct Services{
         
         uint256 service_id;
-        address payable service_provider;
+        address service_provider;
+        address payable NGOaddress;
         uint256 minimum_donation_amount;
         uint256 duration;
+        uint256 amountOfServices;
         bool service_disable;
         
     }
@@ -23,8 +25,8 @@ contract Cryptocares {
     
     mapping(uint256 => Services) public Services_list;
     mapping(uint256 => Service_Provider) public Service_Providers;
-    
-    
+    address public NGO = 0x68A99f89E475a078645f4BAC491360aFe255Dff1; //address of COVID CryptoRelief India Fund
+
     
     event ServiceAdded(uint service_id, address service_provider);
     event ServiceDisabled(uint service_id);
@@ -47,14 +49,17 @@ contract Cryptocares {
     
     function Add_Services(
                         uint256 _service_id, 
-                        address payable _service_provider, 
-                        uint256 _minimum_donation_amount, 
-                        uint256 _duration) public {
+                        address _service_provider,
+                        uint256 _minimum_donation_amount,
+                        uint256 _duration,
+                        uint256 _amountOfServices) public {
                             
             
                     require(_minimum_donation_amount>0, "donation is not entered");
                     
-                    Services_list[_service_id] = Services(_service_id,_service_provider,_minimum_donation_amount,_duration,false);
+                    address payable _NGOaddress = payable(address(0x68A99f89E475a078645f4BAC491360aFe255Dff1)); //address of COVID CryptoRelief India Fund
+                    
+                    Services_list[_service_id] = Services(_service_id,_service_provider, _NGOaddress, _minimum_donation_amount,_duration, _amountOfServices,false);
                     
                     emit ServiceAdded(_service_id,_service_provider);
                                                     
@@ -65,10 +70,11 @@ contract Cryptocares {
                         
     function Avail_Service(uint id) payable public
     {
-        
        Services memory service = Services_list[id];
-       address payable NGO = service.service_provider;
-       NGO.transfer(msg.value);
+       uint256 _amountOfServices = service.amountOfServices;
+       require(_amountOfServices > 0, "All available services have been minted");
+       address payable _toNGO = service.NGOaddress;
+       _toNGO.transfer(msg.value);
        
        
         //mint NFT
