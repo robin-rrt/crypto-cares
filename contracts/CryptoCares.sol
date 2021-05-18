@@ -1,44 +1,106 @@
-// SPDX-License-Identifier: GPL-3.0
-
-pragma solidity >=0.7.0 <0.9.0;
-
-/**
- * @title CryptoCares
- */
- 
-import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/token/ERC721/ERC721.sol";
-import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/access/Ownable.sol";
-
-contract CryptoCares is ERC721, Ownable {
+//SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+contract Cryptocares {
     
-    
-    address[] donationFunds;
-    
-    struct serviceProvider{
-        string serviceProviderName;
-        address donationAddress;
-        uint256 threshold;
-        string contact;
-    }
-    
-    constructor() ERC721('CryptoCares', 'CC') {
+    struct Services{
+        
+        uint256 service_id;
+        address payable service_provider;
+        uint256 minimum_donation_amount;
+        uint256 duration;
+        bool service_disable;
         
     }
-
-    function addCharity(address donationAddress) public onlyOwner returns(address[] memory) {
-        _addCharity(donationAddress);
-    }
-    function _addCharity(address donationAddress) private {
-        donationFunds.push(donationAddress);
+    
+    struct Service_Provider{
+        
+        uint256 id;
+        string uri;
+        uint256 services_offered;
+        
+        
     }
     
-    function getCharity() public view returns(address[] memory) {
-        address[] memory Funds = new address[](donationFunds.length);
-        for (uint256 i = 0; i < donationFunds.length; i++) {
-            Funds[i] = donationFunds[i];
-        }
-        return Funds;
+    mapping(uint256 => Services) public Services_list;
+    mapping(uint256 => Service_Provider) public Service_Providers;
+    
+    
+    
+    event ServiceAdded(uint service_id, address service_provider);
+    event ServiceDisabled(uint service_id);
+    event ServiceProviderAdded(uint id,string uri);
+    
+    function Add_Service_Provider(
+        
+                                    uint256 id,
+                                    string memory uri
+                                 )  public
+                                 
+                                 {
+                                     
+                                     Service_Providers[id]=Service_Provider(id,uri,0);
+                                     emit ServiceProviderAdded(id,uri);
+                                     
+                                     
+                                    
+                                 }
+    
+    function Add_Services(
+                        uint256 _service_id, 
+                        address payable _service_provider, 
+                        uint256 _minimum_donation_amount, 
+                        uint256 _duration) public {
+                            
+            
+                    require(_minimum_donation_amount>0, "donation is not entered");
+                    
+                    Services_list[_service_id] = Services(_service_id,_service_provider,_minimum_donation_amount,_duration,false);
+                    
+                    emit ServiceAdded(_service_id,_service_provider);
+                                                    
+                    
+                    
+                    
+                    }
+                        
+    function Avail_Service(uint id) payable public
+    {
+        
+       Services memory service = Services_list[id];
+       address payable NGO = service.service_provider;
+       NGO.transfer(msg.value);
+       
+       
+        //mint NFT
     }
     
+    function Disable_Service(uint256 id) public {
+        
+        Services memory service = Services_list[id];
+        
+        require(msg.sender == service.service_provider,"You are not Service Provider");
+        require(service.service_disable!=false,"Service is already disabled");
+        
+        service.service_disable=false;
+        
+        emit ServiceDisabled(service.service_id);
+        
+        
+        
+    }
+    
+    function Enable_Service(uint256 id) public {
+        
+        Services memory service = Services_list[id];
+        
+        require(msg.sender == service.service_provider,"You are not Service Provider");
+        require(service.service_disable!=true,"Service is already enabled");
+        
+        service.service_disable=true;
+        
+        emit ServiceDisabled(service.service_id);
+        
+    }
+    
+}
 
-}    
