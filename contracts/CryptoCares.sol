@@ -30,6 +30,7 @@ contract Cryptocares {
     
     event ServiceAdded(uint service_id, address service_provider);
     event ServiceDisabled(uint service_id);
+    event ServiceEnabled(uint service_id);
     event ServiceProviderAdded(uint id,string uri);
     
     function Add_Service_Provider(
@@ -67,19 +68,14 @@ contract Cryptocares {
                     
                     
                     }
-                    
-    function getService(uint id) view public returns(Services memory){
-        Services memory service = Services_list[id];
-        return service;
-    }
                         
-    function Avail_Service(uint id) payable public
+    function Avail_Service(uint256 id) payable public
     {
-       Services memory service = Services_list[id];
+       Services storage service = Services_list[id];
        uint256 _amountOfServices = service.amountOfServices;
-       require(service.service_disable != true);
-       require(_amountOfServices > 0, "All available services have been minted");
-       require(msg.value >= service.minimum_donation_amount);
+       require(service.service_disable != true); // service should not be disabled
+       require(_amountOfServices > 0, "All available services have been minted"); // amount of services should not be depleted
+       require(msg.value >= service.minimum_donation_amount); // donation amount sent must be above minimum_donation_amount
        address payable _toNGO = service.NGOaddress;
        _toNGO.transfer(msg.value);
        service.amountOfServices = service.amountOfServices - 1;
@@ -87,18 +83,15 @@ contract Cryptocares {
        if(service.amountOfServices == 0){
             _disableService(service.service_id);
        }
-       
-       
-       
         //mint NFT
     }
     
     function Disable_Service(uint256 id) public {
         
-        Services memory service = Services_list[id];
+        Services storage service = Services_list[id];
         
         require(msg.sender == service.service_provider,"You are not Service Provider");
-        require(service.service_disable!=false,"Service is already disabled");
+        require(service.service_disable!=true,"Service is already disabled");
         
         _disableService(id);
         
@@ -106,24 +99,30 @@ contract Cryptocares {
     }
     
     function _disableService(uint256 id) private {
-        Services memory service = Services_list[id];
+        Services storage service = Services_list[id];
         
-        service.service_disable=false;
+        service.service_disable=true;
         emit ServiceDisabled(service.service_id);
     }
     
     function Enable_Service(uint256 id) public {
         
-        Services memory service = Services_list[id];
+        Services storage service = Services_list[id];
         
         require(msg.sender == service.service_provider,"You are not Service Provider");
-        require(service.service_disable!=true,"Service is already enabled");
+        require(service.service_disable!=false,"Service is already enabled");
+        require(service.amountOfServices > 0, "All available services have been minted");
         
-        service.service_disable=true;
+        service.service_disable=false;
         
-        emit ServiceDisabled(service.service_id);
+        emit ServiceEnabled(service.service_id);
         
     }
     
+    function Get_Service(uint256 id) public view returns(Services memory){
+        return Services_list[id];
+    }
+    
 }
+
 
