@@ -11,41 +11,34 @@ contract Cryptocares {
         uint256 duration;
         uint256 amountOfServices;
         bool service_disable;
+        string description;
         
     }
     
     struct Service_Provider{
         
-        uint256 id;
+        address service_provider;
         string uri;
-        uint256 services_offered;
         
         
     }
     
     mapping(uint256 => Services) public Services_list;
-    mapping(uint256 => Service_Provider) public Service_Providers;
+    mapping(address => Service_Provider) public Service_Providers;
     address public NGO = 0x68A99f89E475a078645f4BAC491360aFe255Dff1; //address of COVID CryptoRelief India Fund
 
     
     event ServiceAdded(uint service_id, address service_provider);
     event ServiceDisabled(uint service_id);
     event ServiceEnabled(uint service_id);
-    event ServiceProviderAdded(uint id,string uri);
+    event ServiceProviderAdded(address service_provider,string uri);
     
-    function Add_Service_Provider(
-        
-                                    uint256 id,
-                                    string memory uri
-                                 )  public
-                                 
-                                 {
-                                     
-                                     Service_Providers[id]=Service_Provider(id,uri,0);
-                                     emit ServiceProviderAdded(id,uri);
-                                     
-                                     
-                                    
+    function _addServiceProvider(
+                                address service_provider,
+                                string memory uri
+                                 ) private {
+                                     Service_Providers[service_provider]=Service_Provider(service_provider,uri);
+                                     emit ServiceProviderAdded(service_provider,uri);
                                  }
     
     function Add_Services(
@@ -53,29 +46,51 @@ contract Cryptocares {
                         address _service_provider,
                         uint256 _minimum_donation_amount,
                         uint256 _duration,
-                        uint256 _amountOfServices) public {
+                        uint256 _amountOfServices,
+                        string memory _description,
+                        string memory _contactURI) public {
                             
             
                     require(_minimum_donation_amount>0, "donation is not entered");
+
                     
                     address payable _NGOaddress = payable(address(0x68A99f89E475a078645f4BAC491360aFe255Dff1)); //address of COVID CryptoRelief India Fund
                     
-                    Services_list[_service_id] = Services(_service_id,_service_provider, _NGOaddress, _minimum_donation_amount,_duration, _amountOfServices,false);
+                    Services_list[_service_id] = Services( _service_id,
+                                                           _service_provider,
+                                                           _NGOaddress,
+                                                           _minimum_donation_amount,
+                                                           (_duration* 1 days),
+                                                           _amountOfServices,
+                                                           false,
+                                                           _description);
                     
                     emit ServiceAdded(_service_id,_service_provider);
-                                                    
                     
-                    
+                    _addServiceProvider(_service_provider, _contactURI);
                     
                     }
+                    
+    constructor() {
+        Services_list[0] = Services(0, 
+                                msg.sender, 
+                                payable(address(0x68A99f89E475a078645f4BAC491360aFe255Dff1)), 
+                                0, 
+                                5000 weeks, 
+                                99999999, 
+                                false, 
+                                "None");
+                                
+        Service_Providers[msg.sender] = Service_Provider(msg.sender, "None");
+    }
                         
     function Avail_Service(uint256 id) payable public
     {
        Services storage service = Services_list[id];
        uint256 _amountOfServices = service.amountOfServices;
-       require(service.service_disable != true); // service should not be disabled
+       require(service.service_disable != true, "Service is disabled"); // service should not be disabled
        require(_amountOfServices > 0, "All available services have been minted"); // amount of services should not be depleted
-       require(msg.value >= service.minimum_donation_amount); // donation amount sent must be above minimum_donation_amount
+       require(msg.value >= service.minimum_donation_amount, "Donation Amount must be greater than or equal to minimum value"); // donation amount sent must be above minimum_donation_amount
        address payable _toNGO = service.NGOaddress;
        _toNGO.transfer(msg.value);
        service.amountOfServices = service.amountOfServices - 1;
@@ -121,6 +136,10 @@ contract Cryptocares {
     
     function Get_Service(uint256 id) public view returns(Services memory){
         return Services_list[id];
+    }
+    
+    function Get_ServiceProvider(address service_provider) public view returns(Service_Provider memory){
+        return Service_Providers[service_provider];
     }
     
 }
