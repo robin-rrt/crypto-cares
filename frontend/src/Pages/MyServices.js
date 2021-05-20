@@ -1,6 +1,7 @@
-import React from 'react'
+import React,{useGlobal} from 'reactn'
 
 const MyServices = () => {
+    const [account] = useGlobal('account')
     return (
         <div style=
         {{
@@ -10,7 +11,7 @@ const MyServices = () => {
             height: '90vh'
         }}
         >
-            <h1>MyServices</h1>
+            {!!account?<h1>MyServices</h1>:<h1>Account Not Connected</h1>}
         </div>
 
     )
