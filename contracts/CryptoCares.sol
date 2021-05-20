@@ -43,37 +43,40 @@ contract Cryptocares {
     
     function Add_Services(
                         uint256 _service_id, 
-                        address _service_provider,
                         uint256 _minimum_donation_amount,
                         uint256 _duration,
                         uint256 _amountOfServices,
                         string memory _description,
                         string memory _contactURI) public {
                             
-            
+                    require(_service_id != 0, "Service ID 0 is for default 'None' ");
+                    require(msg.sender != address(0), "Service Provider cannot be address(0)");
                     require(_minimum_donation_amount>0, "donation is not entered");
-
+                    require(_duration > 0, "Duration of Service must be greater than 0 days");
+                    require(_amountOfServices > 0, "Amount of Services provided not entered");
+                    Services storage service = Services_list[_service_id];
+                    require(service.service_provider == address(0), "There is already a Service in this Service ID");
                     
                     address payable _NGOaddress = payable(address(0x68A99f89E475a078645f4BAC491360aFe255Dff1)); //address of COVID CryptoRelief India Fund
                     
                     Services_list[_service_id] = Services( _service_id,
-                                                           _service_provider,
+                                                           msg.sender,
                                                            _NGOaddress,
                                                            _minimum_donation_amount,
-                                                           (_duration* 1 days),
+                                                           (block.timestamp + _duration * 1 days),
                                                            _amountOfServices,
                                                            false,
                                                            _description);
                     
-                    emit ServiceAdded(_service_id,_service_provider);
+                    emit ServiceAdded(_service_id,msg.sender);
                     
-                    _addServiceProvider(_service_provider, _contactURI);
+                    _addServiceProvider(msg.sender, _contactURI);
                     
                     }
                     
     constructor() {
         Services_list[0] = Services(0, 
-                                msg.sender, 
+                                address(0), 
                                 payable(address(0x68A99f89E475a078645f4BAC491360aFe255Dff1)), 
                                 0, 
                                 5000 weeks, 
@@ -81,13 +84,14 @@ contract Cryptocares {
                                 false, 
                                 "None");
                                 
-        Service_Providers[msg.sender] = Service_Provider(msg.sender, "None");
+        Service_Providers[address(0)] = Service_Provider(address(0), "None");
     }
                         
     function Avail_Service(uint256 id) payable public
     {
        Services storage service = Services_list[id];
        uint256 _amountOfServices = service.amountOfServices;
+       require(service.duration - block.timestamp > 0, "Service has expired");
        require(service.service_disable != true, "Service is disabled"); // service should not be disabled
        require(_amountOfServices > 0, "All available services have been minted"); // amount of services should not be depleted
        require(msg.value >= service.minimum_donation_amount, "Donation Amount must be greater than or equal to minimum value"); // donation amount sent must be above minimum_donation_amount
@@ -95,7 +99,7 @@ contract Cryptocares {
        _toNGO.transfer(msg.value);
        service.amountOfServices = service.amountOfServices - 1;
        
-       if(service.amountOfServices == 0){
+       if(service.amountOfServices == 0 || service.duration - block.timestamp <= 0){
             _disableService(service.service_id);
        }
         //mint NFT
