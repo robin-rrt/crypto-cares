@@ -4,13 +4,13 @@
     outline-width: 1px;
 }
 
-.container {
+.donate-container {
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.DonateForm {
+.donate-form {
     margin: 50px;
     background: rgb(228, 226, 226);
     height: 75vh; 
@@ -19,15 +19,16 @@
     /* align-items: center; */
     text-align: center;
     border-radius: 25px;
+    box-shadow: 0 7px 16px rgba(0, 0, 0, 0.1);
 }
 
-.title {
+.donate-title {
     margin-top: 10%;
     margin-left: 12.5%;
     text-align: left;
 }
 
-.inputField {
+.donate-inputField {
     margin-top: 10%;
     /* margin-left: 13%;
     margin-right: 13%; */
@@ -50,13 +51,27 @@
     width: 75%;
 }
 
-#submit {
+#serviceModal {
+    position:fixed;
+    background: white;
+    height: 75%;
+    width: 50%;
+    top:50%;
+    left:50%;
+    transform: translate(-50%,-50%);
+    text-align: center;
+    border-radius: 25px;
+}
+
+#donate-submit {
     color: white;
     background: #6d76f7;
     text-align: center;
 }
 
 #ServiceButton {
+    margin-top: 10%;
+    width: 75%;
     color: white;
     background: black;
     text-align: center;
