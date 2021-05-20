@@ -24,15 +24,41 @@ contract Cryptocares {
         
     }
     
+    
     mapping(uint256 => Services) public Services_list;
     mapping(address => Service_Provider) public Service_Providers;
     address public NGO = 0x68A99f89E475a078645f4BAC491360aFe255Dff1; //address of COVID CryptoRelief India Fund
-
+    uint256 private _serviceID = 0;
     
     event ServiceAdded(uint service_id, address service_provider);
     event ServiceDisabled(uint service_id);
     event ServiceEnabled(uint service_id);
     event ServiceProviderAdded(address service_provider,string uri);
+    
+    
+    constructor() {
+         
+        Services_list[0] = Services(0, 
+                                address(0), 
+                                payable(address(0x68A99f89E475a078645f4BAC491360aFe255Dff1)), 
+                                0, 
+                                5000 weeks, 
+                                99999999, 
+                                false, 
+                                "None");
+                                
+        Service_Providers[address(0)] = Service_Provider(address(0), "None");
+         
+    }
+    
+    function _incrementserviceID() private returns(uint256){
+        _serviceID += 1;
+        return _serviceID;
+    }
+    
+    function getServiceID() public view returns(uint256){
+        return _serviceID;
+    }
     
     function _addServiceProvider(
                                 address service_provider,
@@ -43,18 +69,20 @@ contract Cryptocares {
                                  }
     
     function Add_Services(
-                        uint256 _service_id, 
                         uint256 _minimum_donation_amount,
                         uint256 _duration,
                         uint256 _amountOfServices,
                         string memory _description,
                         string memory _contactURI) public {
                             
-                    require(_service_id != 0, "Service ID 0 is for default 'None' ");
                     require(msg.sender != address(0), "Service Provider cannot be address(0)");
                     require(_minimum_donation_amount>0, "donation is not entered");
                     require(_duration > 0, "Duration of Service must be greater than 0 days");
                     require(_amountOfServices > 0, "Amount of Services provided not entered");
+                    
+                    uint256 _service_id = _incrementserviceID();
+                    require(_service_id != 0, "Service ID 0 is for default 'None' ");
+                    
                     Services storage service = Services_list[_service_id];
                     require(service.service_provider == address(0), "There is already a Service in this Service ID");
                     
@@ -75,18 +103,7 @@ contract Cryptocares {
                     
                     }
                     
-    constructor() {
-        Services_list[0] = Services(0, 
-                                address(0), 
-                                payable(address(0x68A99f89E475a078645f4BAC491360aFe255Dff1)), 
-                                0, 
-                                5000 weeks, 
-                                99999999, 
-                                false, 
-                                "None");
-                                
-        Service_Providers[address(0)] = Service_Provider(address(0), "None");
-    }
+    
                         
     function Avail_Service(uint256 id) payable public
     {
@@ -147,6 +164,18 @@ contract Cryptocares {
         return Service_Providers[service_provider];
     }
     
+    // function getServicesFromProvider(address  _service_provider) public view returns(Services[] memory){
+    //     Services[] memory servicesFromProvider;
+    //     for(uint256 i = 0; i < Services_list.length; i++) {
+    //         Services storage service = Services_list[i];
+            
+    //         if(service.service_provider == _service_provider){
+    //             servicesFromProvider.push(service);
+    //         }
+                
+    //     }
+    //     return servicesFromProvider;
+    // }
 }
 
 
