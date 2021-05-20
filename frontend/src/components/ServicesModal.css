@@ -1,0 +1,28 @@
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width:100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+  }
+  
+  .services-modal-main {
+    position:fixed;
+    background: white;
+    height: 75%;
+    width: 50%;
+    top:50%;
+    left:50%;
+    transform: translate(-50%,-50%);
+    text-align: center;
+    border-radius: 25px;
+  }
+  
+  .services-display-block {
+    display: block;
+  }
+  
+  .services-display-none {
+    display: none;
+  }

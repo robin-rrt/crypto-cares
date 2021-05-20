@@ -1,62 +1,66 @@
-import React from 'react-dom';
+// import React, {useRef} from 'react';
+import './ServicesModal.css'
+import styled from 'styled-components';
+import {MdClose} from 'react-icons/md';
+// import 'bootstrap/dist/css/bootstrap.min.css';
+import Accordion from 'react-bootstrap/Accordion'
+import Card from 'react-bootstrap/Card'
 
 
-const ServicesModal = ({ handleClose, show, children }) => {
-    
+const CloseModalButton = styled(MdClose)`
+    cursor: pointer;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    z-index: 10;
+`;
+
+
+export default function ServicesModal({ handleClose, isOpen, children }) {
+    // const modalRef = useRef();
+
+    var showHideClassName = isOpen ? "modal services-display-block" : "modal services-display-none";
+
+    // const closeModal = e => {
+    //     if (modalRef.current === e.target) {
+    //         isOpen = false;
+    //     }
+    // }
+
     return (
-        <div>
-            <div className="modal-container">
-                {children}
-                <button className="modal-close"onClick={handleClose}>close</button>
+            <div className={showHideClassName} >
+                <section className="services-modal-main" /*ref={modalRef} onClick={closeModal}*/>
+                    { children }
+                    <button type="button" onClick={handleClose}>Close Modal</button>
+
+                    <Accordion defaultActiveKey="0">
+                        <Card>
+                            <Accordion.Toggle as={Card.Header} eventKey="0">
+                            Click me!
+                            </Accordion.Toggle>
+                            <Accordion.Collapse eventKey="0">
+                            <Card.Body>Hello! I'm the body</Card.Body>
+                            </Accordion.Collapse>
+                        </Card>
+                        <Card>
+                            <Accordion.Toggle as={Card.Header} eventKey="1">
+                            Click me!
+                            </Accordion.Toggle>
+                            <Accordion.Collapse eventKey="1">
+                            <Card.Body>Hello! I'm another body</Card.Body>
+                            </Accordion.Collapse>
+                        </Card>
+                    </Accordion>
+
+                    <CloseModalButton aria-label="Close Modal" onClick={handleClose} />
+                
+                </section>
+                
             </div>
-        </div>
     )
 }
 
-export default ServicesModal
 
-
-
-
-// import React, { Component } from 'react'
-
-// export default class ServicesModal extends Component {
-
-//     state= {
-//         service: null
-//     }
-
-//     handleChange = (e) => this.setState({
-//         service: e.target.value
-//     })
-
-//     render() {
-//         return (
-//             <div>
-//                 <form>
-//                     <h1>Donate</h1>
-
-//                     <input type="text" placeholder="Name (optional)"  />
-
-//                     <br />
-
-//                     <select>
-//                         <option value="indiaFund">Crypto Relief India Fund</option>
-//                     </select>
-
-//                     <br />
-
-//                     <button id="ServiceButton" onClick={this.openServices}>Choose a service</button>
-
-//                     <br />
-
-//                     <p >Threshold: ~ xxx amount</p>
-
-//                     <br />
-
-//                     <button type="submit" onClick={() => this.props.onSubmit}>Pick Service</button>
-//                 </form>
-//             </div>
-//         )
-//     }
-// }
