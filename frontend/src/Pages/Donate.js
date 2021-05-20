@@ -1,19 +1,14 @@
-import React, { Component } from 'react'
+import React, { useGlobal } from 'reactn'
 import DonateForm from '../components/DonateForm'
 
-export default class Donate extends Component {
+export default function Donate (){
 
-    constructor (props) {
-        super(props);
-        this.state = {
+    const [account] = useGlobal('account')
 
-        }
-    }
-
-    render() {
+     {
         return (
             <div>
-                <DonateForm  />
+                {!!account?<DonateForm  />:<h1>Account Not Connected</h1>}
             </div>
         )
     }
