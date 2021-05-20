@@ -1,0 +1,25 @@
+{
+  "name": "crypto-cares",
+  "version": "1.0.0",
+  "description": "A DeFi + NFT protocol that allows domain experts to incentivize donation to a cause from others in exchange for a few hours of their time.",
+  "main": "truffle-config.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/robin-rrt/crypto-cares.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/robin-rrt/crypto-cares/issues"
+  },
+  "homepage": "https://github.com/robin-rrt/crypto-cares#readme",
+  "dependencies": {
+    "@openzeppelin/contracts": "^4.1.0"
+  }
+}
