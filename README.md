@@ -4,7 +4,8 @@ A DeFi + NFT protocol that allows domain experts to incentivize donation to a ca
 
 CryptoCares is a social good dApp that allows for incentivizing donations to charities and relief campaigns in exchange for time and services from domain experts. Current focus is donation only through Sandeep Nailwal's Indian Covid Crypto Relief campaign, but we intend to scale it such that any verified fund or charity can list themselves to receive donations.
 
-## Video Intro
+## Video Overview
+https://www.youtube.com/watch?v=mnEla8bYsiY
 
 ## CryptoCares
 https://www.canva.com/design/DAEfNk7WQek/betN9GnXqHx_t2TICt5JRg/view?utm_content=DAEfNk7WQek&utm_campaign=designshare&utm_medium=link&utm_source=publishsharelink
