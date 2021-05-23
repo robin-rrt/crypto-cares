@@ -5,7 +5,9 @@ import Accordion from 'react-bootstrap/Accordion'
 import Card from 'react-bootstrap/Card'
 import Modal from 'react-bootstrap/Modal'
 import Button from 'react-bootstrap/Button'
-import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/css/bootstrap.min.css'
+import {Table, FormGroup, FormControl, ControlLabel, Col} from 'react-bootstrap'
+import Form from 'react-bootstrap/Form'
 
 export default class DonateForm extends Component {
     // state = {
@@ -114,6 +116,55 @@ export default class DonateForm extends Component {
                                         </Accordion.Collapse>
                                     </Card>
                                 </Accordion>
+                                {/* <Form>
+                                    <Form.Group as="row">
+
+                                        <Col>
+                                            <Form.Check type="radio"></Form.Check>
+                                            <Form.Check type="radio"></Form.Check>
+                                            <Form.Check type="radio"></Form.Check>
+                                            <Form.Check type="radio"></Form.Check>
+                                        </Col>
+                                        <Col sm="4">
+                                        <Accordion defaultActiveKey="0">
+                                            <Accordion.Toggle as={Card.Header} eventKey="0">
+                                            Click me!
+                                            </Accordion.Toggle>
+                                            <Accordion.Collapse eventKey="0">
+                                            <Card.Body>Hello! I'm the body</Card.Body>
+                                            </Accordion.Collapse>
+                                            </Accordion>
+                                        </Col>
+                                    </Form.Group>
+                                    <Form.Group as="row">
+
+                                        <Col>
+                                            <Form.Check type="radio"></Form.Check>
+                                        </Col>
+                                        <Col sm="4">
+                                        <Accordion defaultActiveKey="0">
+                                            <Accordion.Toggle as={Card.Header} eventKey="0">
+                                            Click me!
+                                            </Accordion.Toggle>
+                                            <Accordion.Collapse eventKey="0">
+                                            <Card.Body>Hello! I'm the body</Card.Body>
+                                            </Accordion.Collapse>
+                                            </Accordion>
+                                        </Col>
+                                    </Form.Group>
+                                    {/* <Form.Group as="row"> */}
+                                        {/* <Form.Check type="radio"></Form.Check>
+                                        <Accordion defaultActiveKey="0">
+                                            <Accordion.Toggle as={Card.Header} eventKey="1">
+                                            Click me!
+                                            </Accordion.Toggle>
+                                            <Accordion.Collapse eventKey="1">
+                                            <Card.Body>Hello! I'm another body</Card.Body>
+                                            </Accordion.Collapse>
+                                            </Accordion> */}
+                                        
+                                    {/* </Form.Group> 
+                                </Form> */}
                             </Modal.Body>
                         </Modal>
 

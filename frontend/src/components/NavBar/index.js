@@ -1,11 +1,14 @@
 import React,{useGlobal,useState} from 'reactn';
 import {Nav, NavLink, Bars, NavMenu, NavBtn, NavBtnLink, NavLogo} from './NavbarElements';
 import logo from '../../images/logo.png'
+import Button from 'react-bootstrap/Button'
+import Table from 'react-bootstrap/Table'
 
 const NavBar = () => {
 
   const [account, setAccount] = useGlobal('account')
   const [chainId,setChainId] = useState(null)
+  // window.account = 
   
 
   const onClickConnect = async (event) =>{
@@ -77,9 +80,23 @@ window.ethereum.on('chainChanged', (_chainId) => {
             Redeem
           </NavLink>
           
-          <NavBtn>
+          
+          {
+            !!account
+            ?
+            <Button onClick={onClickdisConnect}>
+            Disconnect
+              <br />
+            {account}
+                
+
+            </Button>
+            :
+            <Button onClick={onClickConnect}>Connect Wallet</Button>
+          }
+          {/* <NavBtn>
             {!!account?<NavBtn onClick={onClickdisConnect}>{account}</NavBtn>:<NavBtn onClick={onClickConnect}>Connect Wallet</NavBtn>}
-          </NavBtn>
+          </NavBtn> */}
 
         </NavMenu>
       </Nav>
