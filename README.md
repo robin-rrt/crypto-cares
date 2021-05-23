@@ -2,7 +2,7 @@
 
 A DeFi + NFT protocol that allows domain experts to incentivize donation to a cause from others in exchange for a few hours of their time.
 
-CryptoCares is a social good dApp that allows for incentivizing donations to charities and relief campaigns in exchange for time and services from domain experts. During this hackathon, we will focus donation only on Sandeep Nailwal's Indian Covid Crypto Relief campaign, but we intend to scale it such that any verified fund or charity can list themselves to receive donations.
+CryptoCares is a social good dApp that allows for incentivizing donations to charities and relief campaigns in exchange for time and services from domain experts. Current focus is donation only through Sandeep Nailwal's Indian Covid Crypto Relief campaign, but we intend to scale it such that any verified fund or charity can list themselves to receive donations.
 
 ## Video Intro
 
