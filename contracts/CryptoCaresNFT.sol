@@ -51,12 +51,5 @@ contract Crypto_Care_NFT is ERC721,Ownable{
         }
         
 
-        function mint(
-            address _to,
-            uint256 _tokenId,
-            string memory tokenURI_
-        ) external onlyOwner() {
-            _mint(_to, _tokenId);
-            _setTokenURI(_tokenId, tokenURI_);
-        }
+        
 }
