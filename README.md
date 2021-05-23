@@ -20,9 +20,11 @@ CryptoCaresNFT:
 ## Deployment Transactions
 CryptoCares:
 0xc29d4e3d5da4c9a821001cc029d66bda99633bee55e2793217805de56314f5bc
+https://explorer-mumbai.maticvigil.com/tx/0xc29d4e3d5da4c9a821001cc029d66bda99633bee55e2793217805de56314f5bc/internal-transactions
 
 CryptoCaresNFT:
 0x94cc4749f82b05d25ce449a5b2971fda792bdd185a0e87e3e59ee66c109af158
+https://explorer-mumbai.maticvigil.com/tx/0x94cc4749f82b05d25ce449a5b2971fda792bdd185a0e87e3e59ee66c109af158/internal-transactions
 
 
 # To run:
