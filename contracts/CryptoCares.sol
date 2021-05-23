@@ -1,7 +1,9 @@
 //SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
-import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
-contract Cryptocares {
+// import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+// import"https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/token/ERC721/presets/ERC721PresetMinterPauserAutoId.sol";
+import "./CryptoCaresNFT.sol";
+contract Cryptocares is Crypto_Care_NFT{
     
     struct Services{
         
@@ -29,6 +31,7 @@ contract Cryptocares {
     mapping(address => Service_Provider) public Service_Providers;
     address public NGO = 0x68A99f89E475a078645f4BAC491360aFe255Dff1; //address of COVID CryptoRelief India Fund
     uint256 private _serviceID = 0;
+    uint256 private _tokenID = 0;
     
     event ServiceAdded(uint service_id, address service_provider);
     event ServiceDisabled(uint service_id);
@@ -36,8 +39,9 @@ contract Cryptocares {
     event ServiceProviderAdded(address service_provider,string uri);
     
     
-    constructor() {
-         
+    constructor() Crypto_Care_NFT("CryptoCares", "CC"){
+        
+        
         Services_list[0] = Services(0, 
                                 address(0), 
                                 payable(address(0x68A99f89E475a078645f4BAC491360aFe255Dff1)), 
@@ -121,6 +125,10 @@ contract Cryptocares {
             _disableService(service.service_id);
        }
         //mint NFT
+        mintNFT(msg.sender, _tokenID, "https://upload.wikimedia.org/wikipedia/commons/2/24/NFT_Icon.png");
+        // _mint(msg.sender, _tokenID);
+        // _setTokenURI(_tokenID, "https://upload.wikimedia.org/wikipedia/commons/2/24/NFT_Icon.png");
+        // _tokenID += 1;
     }
     
     function Disable_Service(uint256 id) public {
@@ -162,6 +170,20 @@ contract Cryptocares {
     
     function Get_ServiceProvider(address service_provider) public view returns(Service_Provider memory){
         return Service_Providers[service_provider];
+    }
+    
+    function mintNFT(
+            address _to,
+            uint256 _tokenId,
+            string memory tokenURI_
+        ) private{
+            _mint(_to, _tokenId);
+            _setTokenURI(_tokenId, tokenURI_);
+            _tokenID += 1;
+        }
+        
+    function getCurrentTokenID() view public returns(uint256) {
+        return _tokenID;
     }
     
     // function getServicesFromProvider(address  _service_provider) public view returns(Services[] memory){
