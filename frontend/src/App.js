@@ -11,7 +11,7 @@ const Redeem = lazy(() => import("./Pages/Redeem"));
 const App = () => {
     const [web3, setWeb3] = useGlobal("web3");
     const loadWeb3 = async () => {
-        const h = new Web3(Web3.givenProvider || "http://localhost:9545");
+        const h = new Web3(Web3.givenProvider || "https://rpc-mumbai.matic.today");
         setWeb3(h);
     };
     useEffect(() => {

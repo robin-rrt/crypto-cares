@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useState, useGlobal} from "reactn";
 import "./DonateForm.css";
-
+import ABI from '../contracts/newABI.json'
 import Accordion from "react-bootstrap/Accordion";
 import Card from "react-bootstrap/Card";
 import Modal from "react-bootstrap/Modal";
@@ -58,6 +58,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const DonateForm = () => {
+  const [account] = useGlobal('account')
+  const [web3]= useGlobal('web3')
   const classes = useStyles();
   const [data, setData] = useState({
     name: "",

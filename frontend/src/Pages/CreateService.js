@@ -5,7 +5,8 @@ import Web3 from 'web3'
 import ABI from '../contracts/newABI.json'
 
 const CreateService = () => {
-    const [account, setAccount] = useGlobal('account')
+    const [account] = useGlobal('account')
+    const [web3]= useGlobal('web3')
     const [minDonation, setMinDonation] = useState('minDonation')
     const [duration, setDuration] = useState('duration')
     const [amount, setAmount] = useState('amount')
@@ -15,10 +16,9 @@ const CreateService = () => {
     // const { abi } = require('../contracts/Cryptocares.json')
 
     // const [web3] = useGlobal('web3')
+ 
 
-    const web3 = new Web3("http://localhost:7545") //Web3.givenProvider || 
-
-    var contract = new web3.eth.Contract([ABI[5]], '0x2Dab42C8Ff8A4Acb7384A86F9a1d1F484B5196dc');
+    var contract = new web3.eth.Contract(ABI, '0x0743c50FF0FBAb7EBcC0D2DE7F6884a72fF2c576');
 
     const handleSubmit = async event => {
         
@@ -26,8 +26,7 @@ const CreateService = () => {
         console.log("minimum donation amount: " + minDonation)
         console.log(ABI[5])
         console.log(contract.methods)
-        contract.methods.Add_Services(minDonation, duration, amount, description, uri).send({from: account, gas: 0x00, 
-            gasPrice: 0x00})
+        contract.methods.Add_Services(minDonation, duration, amount, description, uri).send({from: account})
         .on('transactionHash', (hash) => {
             console.log(hash)
         })
