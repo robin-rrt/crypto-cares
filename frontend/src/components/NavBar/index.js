@@ -105,7 +105,7 @@ const NavBar = () => {
                         </Button>
                         <Button
                             component={Link}
-                            to="/donate"
+                            to="/create-service"
                             color="inherit"
                             className={classes.button}
                         >
@@ -113,7 +113,7 @@ const NavBar = () => {
                         </Button>
                         <Button
                             component={Link}
-                            to="/donate"
+                            to="/my-services"
                             color="inherit"
                             className={classes.button}
                         >
@@ -121,7 +121,7 @@ const NavBar = () => {
                         </Button>
                         <Button
                             component={Link}
-                            to="/donate"
+                            to="/redeem"
                             color="inherit"
                             className={classes.button}
                         >
