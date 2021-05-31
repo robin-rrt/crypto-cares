@@ -26,6 +26,29 @@ export default function Donate() {
   const [web3] = useGlobal("web3");
   const classes = useStyles();
   const tableRef = useRef(null);
+  var contract = new web3.eth.Contract(
+    ABI,
+    "0x0743c50FF0FBAb7EBcC0D2DE7F6884a72fF2c576"
+  );
+
+  async function  get_Services(){
+    let blockchain_data =[]
+    
+    for(let i =0;i<4;i++)
+    {
+    const list = await contract.methods.Services_list(i).call({from:account})
+
+     let list_object={
+      service_id : list[0],
+      Relief_fund_name: 'crypto relief',
+      service_provider: list[1],
+      minimum_donation_amount: list[3],
+      service_description:list[4]
+    }
+   blockchain_data.push(list_object)}
+    
+    setData(blockchain_data)
+  }
   const [data, setData] = useState([
     {
       service_id: "test value",
@@ -36,7 +59,8 @@ export default function Donate() {
     },
   ]);
   useEffect(() => {
-    //TODO: set Data;
+    get_Services();
+    
   }, []);
 
   const actions = [
@@ -45,6 +69,12 @@ export default function Donate() {
       icon: () => <AccountBalanceWalletIcon />,
       tooltip: "Donate",
       onClick: (event, rowData) => {
+        contract.methods.Avail_Service(rowData.service_id).send({from:account,value:web3.utils.toWei(rowData.minimum_donation_amount, "ether")}).on("transactionHash", (hash) => {
+          console.log(hash);
+        })
+        .on("receipt", (receipt) => {
+          alert("Donation has been made");
+        });
         console.log({ rowData });
       },
     }),
@@ -84,7 +114,7 @@ export default function Donate() {
                   actions={actions}
                   columns={DonateTableCol}
                   data={data}
-                  Title="Employee Management"
+                  Title="Service Providers"
                   options={{
                     search: true,
                     sorting: true,

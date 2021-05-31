@@ -99,7 +99,7 @@ const CreateService = () => {
         console.log(hash);
       })
       .on("receipt", (receipt) => {
-        console.log(receipt);
+        alert("Service has been created");
       });
   };
 
